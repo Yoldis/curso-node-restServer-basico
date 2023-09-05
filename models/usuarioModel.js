@@ -40,9 +40,14 @@ const UsuarioSchema = Schema({
     }
 })
 
+
+
 // Eliminar del objeto usuarios las propiedades __v y password
+
+// Nota, esto es una funcion personalizada agregado al objeto UsuarioSchema.methods, la cual le dimos el nombre toJSON, que puede ser cualquier otro nombre y ya a partir de esto puedes hacer logica con los objetos propio del UsuarioSchema
 UsuarioSchema.methods.toJSON = function(){
-    const{__v, password, ...usuario} = this.toObject();
+    const{__v, password, _id, ...usuario} = this.toObject();
+    usuario.uid = _id;
     return usuario;
 }
 

@@ -24,7 +24,6 @@ const usuariosGet = async(req = request, res = response) => {
 
     // const usuarios = await Usuario.find(query)
     // .skip(desde).limit(limite);
-
     // const total = await Usuario.countDocuments(query);
 
     const [total, usuarios] = await Promise.all([
@@ -66,7 +65,7 @@ const usuariosPut = async (req, res = response) => {
         resto.password = bcryptjs.hashSync(password, salt);
     }
 
-    const usuario = await Usuario.findByIdAndUpdate(id, resto);
+    const usuario = await Usuario.findByIdAndUpdate(id, resto, {new:true});
     
     res.status(201).json({
         msg:'Peticion put - Controlador',
@@ -76,24 +75,42 @@ const usuariosPut = async (req, res = response) => {
 }
 
 const usuariosDelete = async(req, res = response) => {
+    
     const{id} = req.params;
-
+    
     // Eliminar fisicamente
     // const usuario = await Usuario.findByIdAndDelete(id);
 
-    const usuario = await Usuario.findByIdAndUpdate(id, {estado:false});
+    const usuario = await Usuario.findByIdAndUpdate(id, {estado:false}, {new:true});
+    
+    // Mi variable de prueba creada en el objeto req
+    const dev = req.dev;
 
     res.status(200).json({
         msg:'Peticion delete - Controlador',
         id,
-        usuario
+        usuario,
+        dev
     })
 }
 
 
-const usuariosPatch = (req, res = response) => {
+
+
+
+//  Controlador de Pruebas
+const usuariosPatch = async(req, res = response) => {
+
+    const params = req.params;
+    const query = req.query;
+    const ususario= await Usuario.find({nombre:'test1'}, 'nombre correo');
+
+
     res.status(200).json({
         msg:'Peticion patch - Controlador',
+        ususario,
+        params,
+        query
     })
 }
 

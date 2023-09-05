@@ -1,8 +1,9 @@
 const {Router} = require('express');
-const { usuariosGet, usuariosPost, usuariosPut, usuariosPatch, usuariosDelete } = require('../controllers/usuarioController');
 const { check } = require('express-validator');
-const { validarCampos } = require('../middleware/validar-campos');
+const { usuariosGet, usuariosPost, usuariosPut, usuariosPatch, usuariosDelete } = require('../controllers/usuarioController');
+
 const { validarRol, emailExiste, existeId } = require('../helpers/db-validators');
+const { validarCampos, validarJWT, tieneRole } = require('../middleware');
 
 // Los parametros es el valor que se le pasa en la url
 // Ejemplo /:id en este caso se definio un parametro llamado id que recibira cualquier valor
@@ -32,15 +33,19 @@ router.put('/:id', [
 ], usuariosPut);
 
 
+
 router.delete('/:id', [
+    validarJWT,
+    // esAdminRole,
+    tieneRole('ADMIN_ROLE', 'VENTAS_ROLE', 'OTRO_ROLE'),
     check('id', 'El id no es valido').isMongoId(),
     check('id').custom((id) => existeId(id)),
-    validarCampos
+    validarCampos,
 ], usuariosDelete);
 
-router.patch('/', usuariosPatch);
 
 
+router.get('/otro', usuariosPatch);
 
 
 module.exports = router;
