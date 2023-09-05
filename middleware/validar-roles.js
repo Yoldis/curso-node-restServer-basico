@@ -34,10 +34,10 @@ const tieneRole = (...roles) => {
 
         if(!roles.includes(rol)){
             return res.status(401).json({
-                msg:`${nombre} no tiene persmisos para dicha accion`
+                msg:`${nombre} no tiene persmisos para dicha accion - Tiene Rol`
             })
         }
-        
+
         next();
     }
 }
