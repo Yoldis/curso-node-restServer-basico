@@ -1,4 +1,4 @@
-const { response, request } = require("express")
+const { response, request } = require("express");
 
 
 const esAdminRole = (req = request, res = response, next) => {
@@ -24,6 +24,7 @@ const esAdminRole = (req = request, res = response, next) => {
 const tieneRole = (...roles) => {
 
     return (req = request, res = response, next) => {
+
         if(!req.usuario){
             return res.status(500).json({
                 msg:'Se quiere vefificar el role sin valdiar el token'
