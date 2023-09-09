@@ -7,6 +7,7 @@ const validarJWT = async(req = request, res = response, next) => {
 
     // const token = req.header('x-token');
     const {'x-token':token} = req.headers;
+    
     if(!token){
         return res.status(401).json({
             msg:'No hay token en la peticion'
@@ -30,8 +31,8 @@ const validarJWT = async(req = request, res = response, next) => {
             })
         }
 
-        // La req es un objeto, dentro de este objeto creo la variable req.uid y le asigno el valor uid que tiene el token
-        // Si existiera la req.uid entonces el valor se modificaria, como no existe esta variable entonces se crea
+        // La req es un objeto, dentro de este objeto creo la variable req.usuario y le asigno el valor usuario que que traigo en la DB
+        // Si existiera la req.usuario entonces el valor se modificaria, como no existe esta variable entonces se crea
         req.usuario = usuario;
 
         // Mi variable de prueba creada en el objeto req

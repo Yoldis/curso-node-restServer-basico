@@ -5,7 +5,7 @@ const esAdminRole = (req = request, res = response, next) => {
 
     if(!req.usuario){
         return res.status(500).json({
-            msg:'Se quiere vefificar el role sin valdiar el token'
+            msg:'Se quiere vefificar el role sin validar el token'
         })
     }
 

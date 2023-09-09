@@ -49,7 +49,7 @@
         .then(resp => resp.json())
         .then(resp => {
             // aqui esta la repuesta de mi backend
-            // console.log(resp);
+            console.log(resp);
             localStorage.setItem('email', resp.usuario.correo);
         })
         .catch(console.warn)
