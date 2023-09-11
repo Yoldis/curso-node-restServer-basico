@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const { dbConnection } = require('../db/config');
+const fileUpload = require('express-fileupload');
 
 class Server {
 
@@ -14,6 +15,7 @@ class Server {
             categorias:'/api/categorias',
             productos:'/api/productos',
             usuarios:'/api/usuarios',
+            uploads:'/api/uploads',
         }
 
         // Conectar a base de datos
@@ -38,6 +40,13 @@ class Server {
         this.app.use(express.json());
         // Para mostrar contenido estatico desde el backend, lo agregamos en la carpeta public
         this.app.use(express.static('public'));
+
+        // Manejar Carga de archivo, instalar npm i express-fileupload
+        this.app.use(fileUpload({
+            useTempFiles : true,
+            tempFileDir : '/tmp/',
+            createParentPath:true
+        }));
     }
 
     routes(){
@@ -47,6 +56,7 @@ class Server {
         this.app.use(this.paths.categorias, require('../routes/categoriaRouter'));
         this.app.use(this.paths.productos, require('../routes/productosRouter'));
         this.app.use(this.paths.usuarios, require('../routes/usuariosRouter'));
+        this.app.use(this.paths.uploads, require('../routes/uploadsRouter'));
     }
 
     listen(){
